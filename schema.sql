@@ -26,6 +26,13 @@ CREATE TABLE employee (
     manager_id INT
     );
 
+CREATE TABLE contact (
+    
+
+
+    );
+
+
 INSERT INTO department
 VALUES(0, 'Engineering'),
       (1, 'Finance'),
@@ -65,3 +72,14 @@ LEFT JOIN  employee m ON e.id = m.manager_id;
 UPDATE employee
 SET manager_id = NULL
 WHERE manager_id = 2;
+
+SELECT e.first_name, e.last_name, d.name as department, r.title, r.salary
+FROM department d
+LEFT JOIN role r ON  d.id = r.department_id
+LEFT JOIN employee e ON r.id = e.role_id
+LEFT JOIN employee m ON e.id =  m.manager_id
+WHERE e.id = 9;
+
+
+DELETE FROM employee 
+WHERE id = 9;
