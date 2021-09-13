@@ -5,13 +5,13 @@ CREATE DATABASE company;
 USE company;
 
 CREATE TABLE department (
-    id INT PRIMARY KEY, 
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, 
     name VARCHAR(30) 
     );
 
 
 CREATE TABLE role (
-    id INT PRIMARY KEY, 
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, 
     title VARCHAR(30),
     salary DECIMAL,
     department_id INT
@@ -19,67 +19,68 @@ CREATE TABLE role (
 
 
 CREATE TABLE employee (
-    id INT PRIMARY KEY, 
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, 
     first_name VARCHAR(30),
     last_name VARCHAR(30),
     role_id INT,
-    manager_id INT
+    manager_id INT,
+    contact_id INT
     );
 
 CREATE TABLE contact (
-    
-
-
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    address VARCHAR(255),
+    city VARCHAR(255),
+    state VARCHAR(255),
+    zip INT,
+    phone BIGINT,
+    email VARCHAR(255)
     );
 
-
-INSERT INTO department
-VALUES(0, 'Engineering'),
-      (1, 'Finance'),
-      (2, 'Legal'),
-      (3, 'Sales');
+INSERT INTO contact (address, city, state, zip, phone, email)
+VALUES ('1800 Graham Ave W', 'Saint Paul', 'MN', 55117, 6122229432, 'jdoe@gmail.com'),
+       ('1834 Wheelock Parkway', 'Saint Paul', 'MN', 55117, 6129902323, 'mchan@gmail.com');
 
 
-INSERT INTO role
-VALUES(1, 'Sales Lead', 100000, 3),
-      (2, 'Salesperson', 80000, 3),
-      (3, 'Lead Engineer', 150000, 0),
-      (4, 'Software Engineer', 120000, 0),
-      (5, 'Account Manager', 160000, 3),
-      (6, 'Accountant', 125000, 3),
-      (7, 'Legal Team Lead', 250000, 2),
-      (8, 'Lawyer', 190000, 2);
+INSERT INTO department (name)
+VALUES('Engineering'),
+      ('Finance'),
+      ('Legal'),
+      ('Sales');
 
 
-INSERT INTO employee
-VALUES(1, 'John', 'Doe', 1, null),
-      (2, 'Mike', 'Chan', 2, 1),
-      (3, 'Ashley', 'Rodriguez', 3, null),
-      (4, 'Kevin', 'Tupik', 4, 3),
-      (5, 'Kunal', 'Singh', 5, null),
-      (6, 'Malia', 'Brown', 6, 5),
-      (7, 'Sarah', 'Lourd', 7, null),
-      (8, 'Tom', 'Allen', 8, 7);
+INSERT INTO role (title, salary, department_id)
+VALUES('Sales Lead', 100000, 3),
+      ('Salesperson', 80000, 3),
+      ('Lead Engineer', 150000, 0),
+      ('Software Engineer', 120000, 0),
+      ('Account Manager', 160000, 3),
+      ('Accountant', 125000, 3),
+      ('Legal Team Lead', 250000, 2),
+      ('Lawyer', 190000, 2);
 
-SELECT e.id, e.first_name, e.last_name, r.title, d.name AS department, r.salary, CONCAT(m.first_name, ' ', m.last_name) AS manager
-FROM employee e 
+
+INSERT INTO employee (first_name, last_name, role_id, manager_id, contact_id)
+VALUES('John', 'Doe', 1, NULL, 1),
+      ('Mike', 'Chan', 2, 1, 2),
+      ('Ashley', 'Rodriguez', 3, NULL, NULL),
+      ('Kevin', 'Tupik', 4, 3, NULL),
+      ('Kunal', 'Singh', 5, NULL, NULL),
+      ('Malia', 'Brown', 6, 5, NULL),
+      ('Sarah', 'Lourd', 7, NULL, NULL),
+      ('Tom', 'Allen', 8, 7, NULL);
+
+
+SELECT CONCAT(e.first_name, ' ', e.last_name) AS name,
+       d.name AS department,
+       r.title,
+       r.salary,
+       CONCAT(m.first_name, ' ', m.last_name) AS manager,
+       CONCAT (c.address, ', ', c.city, ', ', c.state, ', ', c.zip) AS address,
+       c.phone,
+       c.email
+FROM employee e
 LEFT JOIN role r ON e.role_id = r.id
-LEFT JOIN department d ON d.id = r.department_id
-LEFT JOIN  employee m ON e.id = m.manager_id;
-
-
-
-UPDATE employee
-SET manager_id = NULL
-WHERE manager_id = 2;
-
-SELECT e.first_name, e.last_name, d.name as department, r.title, r.salary
-FROM department d
-LEFT JOIN role r ON  d.id = r.department_id
-LEFT JOIN employee e ON r.id = e.role_id
-LEFT JOIN employee m ON e.id =  m.manager_id
-WHERE e.id = 9;
-
-
-DELETE FROM employee 
-WHERE id = 9;
+LEFT JOIN employee m ON m.manager_id = e.id
+LEFT JOIN contact c ON c.id = e.contact_id
+LEFT JOIN department d ON r.department_id = d.id;
