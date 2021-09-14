@@ -9,7 +9,7 @@ LEFT JOIN employee e ON r.id = e.role_id
 LEFT JOIN employee m ON e.id =  m.manager_id
 WHERE e.id = 9;
 
-
+--Notes
 DELETE FROM employee 
 WHERE id = 9;
 
