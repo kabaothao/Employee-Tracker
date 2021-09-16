@@ -36,6 +36,25 @@ const departmentQuestion = [
   },
 ];
 
+const roleQuestion = [
+  {
+    type: "input",
+    name: "role",
+    message: "What is the name of the role?",
+  },
+  {
+    type: "input",
+    name: "role",
+    message: "What is the salary of the role?",
+  },
+  {
+    type: "list",
+    name: "role",
+    message: "Which department does the role belong to?",
+    choices: ["Engineering", "Finance", "Legal", "Sales"],
+  },
+];
+
 //------------------>
 
 let getGeneralQuestions = function () {
@@ -109,9 +128,21 @@ let getGeneralQuestions = function () {
 
       case "Add Role":
         inquirer.prompt(roleQuestion).then(function (data) {
-
-        conn.end();
-        break;
+          //data.role
+          conn.query(
+            `
+                 INSERT INTO role (title, salary, department_id)
+                 VALUES ('${data.role}')
+                `,
+            (err, res) => {
+              if (err) throw err;
+              console.log(`Added ${data.role} to role.`);
+              getGeneralQuestions();
+            }
+            //conn.end();
+            //break;
+          );
+        });
 
       case "Add Employee":
         conn.end();
