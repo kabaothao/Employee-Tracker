@@ -52,8 +52,8 @@ VALUES('Engineering'),
 INSERT INTO role (title, salary, department_id)
 VALUES('Sales Lead', 100000, 3),
       ('Salesperson', 80000, 3),
-      ('Lead Engineer', 150000, 0),
-      ('Software Engineer', 120000, 0),
+      ('Lead Engineer', 150000, 1),
+      ('Software Engineer', 120000, 1),
       ('Account Manager', 160000, 3),
       ('Accountant', 125000, 3),
       ('Legal Team Lead', 250000, 2),
@@ -71,6 +71,7 @@ VALUES('John', 'Doe', 1, NULL, 1),
       ('Tom', 'Allen', 8, 7, NULL);
 
 
+--Get Employees Info
 SELECT CONCAT(e.first_name, ' ', e.last_name) AS name,
        d.name AS department,
        r.title,
@@ -81,6 +82,31 @@ SELECT CONCAT(e.first_name, ' ', e.last_name) AS name,
        c.email
 FROM employee e
 LEFT JOIN role r ON e.role_id = r.id
-LEFT JOIN employee m ON m.manager_id = e.id
+LEFT JOIN employee m ON m.id = e.manager_id
 LEFT JOIN contact c ON c.id = e.contact_id
 LEFT JOIN department d ON r.department_id = d.id;
+
+
+--Get Managers Query
+SELECT 
+    e.id,
+    CONCAT(e.first_name, ' ', e.last_name)
+FROM employee e
+INNER JOIN employee m ON e.id = m.manager_id;
+
+--Get Employees Query
+SELECT id, CONCAT(first_name, ' ',last_name) AS fullName
+FROM employee;
+
+--View Employees by Manager
+SELECT CONCAT(e.first_name, ' ', e.last_name) AS Employee,
+       CONCAT(m.first_name, ' ', m.last_name) AS manager
+FROM employee e
+INNER JOIN employee m ON m.id = e.manager_id;
+
+--View Employees by Department
+SELECT d.name AS Department, 
+	   CONCAT(e.first_name, ' ' , e.last_name) AS Employee 
+FROM employee e
+INNER JOIN role r ON e.role_id = r.id
+INNER JOIN department d ON d.id = r.department_id;
