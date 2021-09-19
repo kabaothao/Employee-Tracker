@@ -1,7 +1,7 @@
 # Employee-Tracker
 > Outline a brief description of your project.
-- Live Demo Part One [_here_](https://drive.google.com/drive/folders/1puaKZEvuH4uNyF7UvtLBKW7bF9Z03I7d). 
-- Live Demo Part Two [_here_](https://drive.google.com/drive/folders/1puaKZEvuH4uNyF7UvtLBKW7bF9Z03I7d). 
+- Live Demo Part One [_here_](https://drive.google.com/file/d/1CDvYLIt_Tg-VZxR3yqb_u3j7vqaKquEv/view?usp=sharing). 
+- Live Demo Part Two [_here_](https://drive.google.com/file/d/1TWZHYb5BYfFTGY_kaBP9WlEW6ow6VnKR/view?usp=sharing). 
 > <!-- If you have the project hosted somewhere, include the link here. -->
 
 ## Table of Contents
